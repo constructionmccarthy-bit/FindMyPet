@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2E7D32">
+  <meta name="description" content="Help find lost pets in your community">
+  <title>Lost Pets VB</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+</head>
+<body>
+  <header>
+    <div class="logo">🐾 Lost Pets VB</div>
+    <button id="addToHomeBtn" class="hidden">Install App</button>
+  </header>
+
+  <main>
+    <div class="tabs">
+      <button class="tab active" data-tab="post">📝 Post</button>
+      <button class="tab" data-tab="feed">📋 Feed</button>
+      <button class="tab" data-tab="map">🗺️ Map</button>
+    </div>
+
+    <!-- Post Tab -->
+    <div id="postTab" class="tab-content active">
+      <h2>Report a Lost or Found Pet</h2>
+      <form id="petForm">
+        <div class="form-group">
+          <label>Report Type</label>
+          <div class="radio-group">
+            <label class="radio-btn">
+              <input type="radio" name="type" value="lost" checked>
+              <span>🔴 Lost Pet</span>
+            </label>
+            <label class="radio-btn">
+              <input type="radio" name="type" value="found">
+              <span>🟢 Found Pet</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="species">Species *</label>
+          <select id="species" required>
+            <option value="">Select...</option>
+            <option value="dog">Dog</option>
+            <option value="cat">Cat</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="breed">Breed</label>
+          <input type="text" id="breed" placeholder="e.g. German Shepherd">
+        </div>
+
+        <div class="form-group">
+          <label for="color">Color *</label>
+          <input type="text" id="color" required placeholder="e.g. Black and tan">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description *</label>
+          <textarea id="description" required placeholder="Distinguishing features, collar info, temperament..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Last Seen Location *</label>
+          <input type="text" id="location" required placeholder="Street address, intersection, or landmark">
+          <button type="button" id="getLocationBtn" class="btn-secondary">📍 Use Current Location</button>
+        </div>
+
+        <div class="form-group">
+          <label for="contact">Your Email *</label>
+          <input type="email" id="contact" required placeholder="so people can reach you">
+        </div>
+
+        <div class="form-group">
+          <label for="photo">Photo</label>
+          <input type="file" id="photo" accept="image/*">
+          <div id="photoPreview" class="photo-preview hidden"></div>
+        </div>
+
+        <button type="submit" class="btn-primary">🐾 Submit Report</button>
+      </form>
+      <div id="formMessage" class="message hidden"></div>
+    </div>
+
+    <!-- Feed Tab -->
+    <div id="feedTab" class="tab-content">
+      <div class="filters">
+        <select id="filterSpecies">
+          <option value="">All Species</option>
+          <option value="dog">Dogs</option>
+          <option value="cat">Cats</option>
+          <option value="other">Other</option>
+        </select>
+        <select id="filterType">
+          <option value="">All Types</option>
+          <option value="lost">Lost</option>
+          <option value="found">Found</option>
+        </select>
+        <select id="filterDistance">
+          <option value="5">Within 5 miles</option>
+          <option value="10">Within 10 miles</option>
+          <option value="25">Within 25 miles</option>
+          <option value="50">Within 50 miles</option>
+        </select>
+        <button id="refreshFeed" class="btn-secondary">🔄 Refresh</button>
+      </div>
+      <div id="petsFeed" class="pets-feed">
+        <div class="loading">Loading reports...</div>
+      </div>
+    </div>
+
+    <!-- Map Tab -->
+    <div id="mapTab" class="tab-content">
+      <div id="map" class="map-container"></div>
+      <div id="mapFilters" class="map-filters">
+        <label><input type="checkbox" id="showLost" checked> 🔴 Lost</label>
+        <label><input type="checkbox" id="showFound" checked> 🟢 Found</label>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal for pet details -->
+  <div id="petModal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  
+  <!-- Leaflet for maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
