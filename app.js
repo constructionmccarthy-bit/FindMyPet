@@ -277,7 +277,7 @@ async function showPetModal(petId) {
         
         <button class="modal-contact-btn" onclick="window.location.href='mailto:${pet.contactEmail}?subject=${pet.type === 'lost' ? 'Found' : 'Re:'} ${pet.breed || pet.species} - Lost Pets VB'">
           ✉️ Contact Owner
-        </button>
+        </a>
       </div>
     `;
     
