@@ -275,9 +275,9 @@ async function showPetModal(petId) {
         <div class="info-row">📍 <strong>Last seen:</strong> ${pet.location}</div>
         <div class="info-row">📅 <strong>Posted:</strong> ${formatDate(pet.createdAt)}</div>
         
-        <button class="modal-contact-btn" onclick="window.location.href='mailto:${pet.contactEmail}?subject=${pet.type === 'lost' ? 'Found' : 'Re:'} ${pet.breed || pet.species} - Lost Pets VB'">
-          ✉️ Contact Owner
-        </a>
+       <a class="modal-contact-btn" href="mailto:${pet.contactEmail}?subject=${pet.type === 'lost' ? 'Found' : 'Re:'} ${pet.breed || pet.species} - Lost Pets VB">
+  ✉️ Contact Owner
+</a>
       </div>
     `;
     
