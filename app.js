@@ -172,7 +172,8 @@ async function loadPets() {
   feedEl.innerHTML = '<div class="loading">Loading reports...</div>';
   
   try {
-    let query = db.collection('pets').where('status', '==', 'active').orderBy('createdAt', 'desc').limit(50);
+    // Don't use orderBy first - just get recent pets
+    let query = db.collection('pets').where('status', '==', 'active').limit(50);
     
     const speciesFilter = document.getElementById('filterSpecies').value;
     const typeFilter = document.getElementById('filterType').value;
@@ -184,7 +185,14 @@ async function loadPets() {
       pets.push({ id: doc.id, ...doc.data() });
     });
     
-    // Apply filters on client side
+    // Sort by createdAt client-side, handle nulls
+    pets.sort((a, b) => {
+      const aTime = a.createdAt ? a.createdAt.toDate().getTime() : 0;
+      const bTime = b.createdAt ? b.createdAt.toDate().getTime() : 0;
+      return bTime - aTime;
+    });
+    
+    // Apply filters
     if (speciesFilter) {
       pets = pets.filter(p => p.species === speciesFilter);
     }
@@ -195,7 +203,7 @@ async function loadPets() {
     renderPets(pets);
   } catch (error) {
     console.error('Load failed:', error);
-    feedEl.innerHTML = '<div class="loading">Failed to load reports. Check your Firebase config.</div>';
+    feedEl.innerHTML = '<div class="loading">Failed to load reports. Check Firebase config.</div>';
   }
 }
 
